@@ -1,0 +1,26 @@
+.main-about{
+    display: grid;
+
+    grid-template-areas: 
+    "text img";
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+
+    height: 70vh;
+    
+    background-color: white;
+}
+
+.text{
+    grid-area: "text";
+    margin: 10%;
+
+    line-height: 1.8;
+}
+
+.img{
+    grid-area: "img";
+    background-image: url(./img/london-taxi.PNG);
+    height: 90%;
+    width: 100%;
+}

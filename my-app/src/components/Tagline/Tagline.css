@@ -1,0 +1,19 @@
+.main{
+    padding-top: 2%;
+    background: rgba(205, 214, 219, 0.7);
+    height: 55vh;
+}
+
+.first-text{
+    font-size: 350%;
+}
+
+.p-tagline{
+    text-align: center;
+    line-height: 0.3;
+}
+
+.second-text{
+    text-align: center;
+    font-size: 120%;
+}

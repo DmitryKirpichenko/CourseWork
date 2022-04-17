@@ -1,0 +1,53 @@
+.main-header {
+    padding-left: 5%;
+    padding-top: 2%;
+    padding-right: 5%;
+    background-color: white;
+
+    height: 17vh;
+}
+
+.label-name{
+
+    font-size: 180%;
+}
+
+.grid-main{
+    display: grid;
+
+    grid-template-areas: 
+    "main-href record-href list";
+    grid-template-rows: 1fr;
+    grid-template-columns: 0.7fr 0.9fr 8fr;
+}
+
+.main-href{
+    grid-area: main-href;
+}
+
+.record-href{
+    grid-area: record-href;
+}
+
+.list{
+    grid-area: list;
+
+    text-align: right;
+}
+
+a:link {
+    color: black; 
+  }
+  a:visited {
+    color: black;
+  }
+  a:hover {
+    color: gray; 
+  }
+  a:active {
+    color: gray
+  }
+
+  a {
+    text-decoration: none;
+  }

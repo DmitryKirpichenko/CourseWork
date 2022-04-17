@@ -1,0 +1,24 @@
+.social-icons {
+    text-align: center;
+    }  
+  .social-icons li {
+    display:inline-block;
+    list-style-type:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    }
+  .social-icons li a {
+    border-bottom: none;
+    }
+  .social-icons li img {
+    width:30px;
+    height:30px;
+    margin-right: 20px;
+  }
+
+.text-footer{
+    text-align: center;
+}
+.main-footer{
+    background-color: white;
+}

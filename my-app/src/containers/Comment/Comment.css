@@ -1,0 +1,50 @@
+.mn{
+    background-color: white;
+}
+
+.main-comment{
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 5%;
+
+    display: grid;
+
+    grid-template-areas: 
+    "img com"
+    "img FIO";
+    grid-template-rows: 2fr 1fr;
+    grid-template-columns: 1fr 3fr;
+
+    height: 40vh;
+
+    background-color: white;
+    
+}
+
+.FIO{
+    grid-area: "FIO";
+    font-size: 80%;
+}
+
+.com{
+    grid-area: "com";
+
+    padding: 6em 1em;
+    
+}
+
+.img-com{
+    height: 200px;
+    width: 200px;
+    grid-area: "img";
+    /* background-image: url(./img/Pasha.jpeg); */
+    border-radius: 50%;
+}
+
+.img-g{
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    
+}

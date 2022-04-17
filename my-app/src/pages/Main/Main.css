@@ -1,0 +1,9 @@
+.pusto{
+    height: 60vh;
+}
+
+.main-app{
+    background-image: url(../../img/women-in-taxi.PNG);
+    background-attachment: fixed;
+    background-size: 100%
+}
