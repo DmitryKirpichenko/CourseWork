@@ -141,22 +141,23 @@ const rows = [
 function ClientArea() {
   const { clientId } = useContext(AuthContext)
 
-  const { data, setData } = useState([])
+  const [cond, setCond] = useState(3)
 
-  const getOrder = useEffect(async () => {
-    try {
-      console.log(clientId)
-      await axios.get('/order', {
+  const [ data, setData ] = useState([])
+
+  const getOrder = useEffect(() => {
+        axios.get('/order', {
         headers: {
           'Content-Type': 'application/json'
         },
-        params: { clientId }
+        params: { clientId, cond }
       })
-        .then((res) => setData(res.map((elem) => createData(elem.data.data, elem.data.departure_street.name, elem.data.destination_street.name, elem.data.condition, elem.data.auto.number))))
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+        .then((res) => setData(res.data))
+        .catch((error) => console.log(error))
+
+  }, [cond])
+
+  let rowss = data.map((item) => createData(item.data,item.departure_street.name, item.destination_street.name, item.condition, item.auto.number ))
   return (
     <div>
       <Header />
@@ -166,9 +167,9 @@ function ClientArea() {
             orientation="vertical"
             aria-label="vertical outlined button group"
           >
-            <Button variant="outlined">Прошлые заказы</Button>
-            <Button variant="outlined">В обработке</Button>
-            <Button variant="outlined">Ожидпют оплаты</Button>
+            <Button variant="outlined" onClick={(e) => setCond(3)}>Прошлые заказы</Button>
+            <Button variant="outlined" onClick={(e) => setCond(1)}>В обработке</Button>
+            <Button variant="outlined" onClick={(e) => setCond(2)}>Ожидают оплаты</Button>
           </ButtonGroup>
 
         </div>
@@ -186,7 +187,7 @@ function ClientArea() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((row) => (
+                {rowss.map((row) => (
                   <Row key={row.name} row={row} />
                 ))}
               </TableBody>

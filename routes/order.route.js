@@ -6,11 +6,11 @@ router.get('/', async (req, res) => {
     try {
         
 
-        const {clientId} = req.query
+        const {clientId, cond} = req.query
 
-        console.log('Просит по id ', clientId)
+        console.log('Просит по id ', clientId, ' ', cond)
 
-        const order = await Order.find({'client._id': clientId})
+        const order = await Order.find({'client._id': clientId , 'condition': cond})
 
         res.json(order)
     } catch (error) {
