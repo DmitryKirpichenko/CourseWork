@@ -10,7 +10,7 @@ const schema = new Schema({
         name: { type: String, required: true },
         surname: { type: String, required: true },
         lastname: { type: String, required: true },
-        phone: { type: String, required: true, unique: true },
+        phone: { type: String, required: true},
     },
     departure_street: {
         _id: { type: Types.ObjectId, required: false },
@@ -24,7 +24,7 @@ const schema = new Schema({
         x: { type: Number, required: true },
         y: { type: Number, required: true }
     },
-    operator: {
+    operator: {type: Object,
         _id: { type: Types.ObjectId, required: false },
         name: { type: String, required: true },
         surname: { type: String, required: true },
@@ -33,17 +33,17 @@ const schema = new Schema({
     },
     type_auto: {
         _id: { type: Types.ObjectId, required: false },
-        name: { type: String, required: true },
+        name: { type: String, required: true }, 
         price: { type: Number, required: true }
     },
-    auto: {
+    auto: {type: Object,
         _id: { type: Types.ObjectId, required: false },
         number: { type: String, required: true },
         brand: { type: String, required: true },
         color: { type: String, required: true },
         year: { type: Number, required: true },
         condition: { type: Number, required: true },
-        driver: {
+        driver: {type: Object,
             _id: { type: Types.ObjectId, required: false },
             name: { type: String, required: true },
             surname: { type: String, required: true },

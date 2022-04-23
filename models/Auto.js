@@ -5,12 +5,12 @@ const schema = new Schema({
     number: { type: String, required: true },
     brand: { type: String, required: true },
     color: { type: String, required: true },
-    year: { type: Int32Array, required: true },
-    condition: { type: Int32Array, required: true },
+    year: { type: Number, required: true },
+    condition: { type: Number, required: true },
     type_auto: {
         _id: { type: Types.ObjectId, required: false },
         name: { type: String, required: true },
-        price: { type: Float32Array, required: true }
+        price: { type: Number, required: true }
     },
     driver: {
         _id: { type: Types.ObjectId, required: false },

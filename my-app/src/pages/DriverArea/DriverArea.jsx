@@ -1,4 +1,4 @@
-import './ClientArea.css'
+import './DriverArea.css'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import { Button } from '@mui/material'
@@ -40,6 +40,12 @@ function createData(name, calories, fat, carbs, protein, cost, driverName, auto)
   };
 }
 
+function buttonVis(con){
+  if(con == 1){
+    return <Button variant="outlined" >Выполнить </Button>
+  }
+}
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -75,8 +81,8 @@ function Row(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell>Цена</TableCell>
-                    <TableCell>Водитель</TableCell>
-                    <TableCell align="right">Авто</TableCell>
+                    <TableCell>Клиент</TableCell>
+                    <TableCell align="right">Номер Клиента</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -91,6 +97,8 @@ function Row(props) {
                   ))}
                 </TableBody>
               </Table>
+              {buttonVis(row.carbs)}
+
             </Box>
           </Collapse>
         </TableCell>
@@ -128,7 +136,7 @@ const rows = [
 
 
 
-function ClientArea() {
+function DriverArea() {
   const { clientId, isDriver, isOperator } = useContext(AuthContext)
 
   const [cond, setCond] = useState(3)
@@ -140,7 +148,7 @@ function ClientArea() {
         headers: {
           'Content-Type': 'application/json'
         },
-        params: { clientId, cond, isDriver, isOperator }
+        params: { clientId, cond , isDriver, isOperator}
       })
         .then((res) => setData(res.data))
         .catch((error) => console.log(error))
@@ -153,8 +161,8 @@ function ClientArea() {
                                             item.condition, 
                                             item.auto = 'null' ? '-' : item.auto.number, 
                                             item.price, 
-                                            item.auto = 'null' ? '-' : item.auto.driver.surname + ' ' + item.auto.driver.name, 
-                                            item.auto = 'null' ? '-' : item.auto.brand ))
+                                            item.client.surname + ' ' + item.client.name, 
+                                            item.client.phone ))
   return (
     <div>
       <Header />
@@ -165,8 +173,7 @@ function ClientArea() {
             aria-label="vertical outlined button group"
           >
             <Button variant="outlined" onClick={(e) => setCond(3)}>Прошлые заказы</Button>
-            <Button variant="outlined" onClick={(e) => setCond(1)}>В обработке</Button>
-            <Button variant="outlined" onClick={(e) => setCond(2)}>Ожидают оплаты</Button>
+            <Button variant="outlined" onClick={(e) => setCond(1)}>Текужий</Button>
           </ButtonGroup>
 
         </div>
@@ -196,4 +203,4 @@ function ClientArea() {
     </div>
   )
 }
-export default ClientArea;
+export default DriverArea;

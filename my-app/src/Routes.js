@@ -3,13 +3,27 @@ import Main from './pages/Main/Main';
 import Login from './pages/Login/Login'
 import Registretion from './pages/Registretion/Registretion';
 import ClientArea from './pages/ClientArea/ClientArea';
+import Order from './pages/Order/Order';
+import DriverArea from './pages/DriverArea/DriverArea';
 
-function useRoutes(isLogin) {
+function useRoutes(isLogin, isOperator, isDriver) {
     if (isLogin) {
+        if(isOperator){
+
+        }
+        if(isDriver){
+            return (
+                <Routes>
+                    <Route path='/' element={<Main />}></Route>
+                    <Route path='/driverroom' element={<DriverArea />}></Route>
+                </Routes>
+                )
+        }
         return (
             <Routes>
                 <Route path='/' element={<Main />}></Route>
                 <Route path='/clientroom' element={<ClientArea />}></Route>
+                <Route path='/order' element={<Order />}></Route>
             </Routes>
             )
     }

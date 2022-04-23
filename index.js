@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 5000
 app.use(express.json({extended: true}))
 app.use('/client', require('./routes/auth.route'))
 app.use('/order', require('./routes/order.route'))
+app.use('/type_auto', require('./routes/type_auto.route'))
+app.use('/street', require('./routes/street.route'))
 
 async function start(){
     try{

@@ -4,20 +4,21 @@ const Client = require('../models/Client')
 const { check, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Employee = require('../models/Employee')
 
 router.post('/registretion',
-     [
-         check('name', 'Некорректное имя').isLength({min: 2}),
-         check('surname', 'Некорректное surname').isLength({min: 5}),
-         check('lastname', 'Некорректное lastname').isLength({min: 5}),
-         check('login', 'Некорректное login').isLength({min: 5}),
-         check('password', 'Некорректное password').isLength({min: 5})
-     ],
+    [
+        check('name', 'Некорректное имя').isLength({ min: 2 }),
+        check('surname', 'Некорректное surname').isLength({ min: 5 }),
+        check('lastname', 'Некорректное lastname').isLength({ min: 5 }),
+        check('login', 'Некорректное login').isLength({ min: 5 }),
+        check('password', 'Некорректное password').isLength({ min: 5 })
+    ],
     async (req, res) => {
         try {
             const errors = validationResult(req)
 
-            if(!errors.isEmpty()){
+            if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'Некорректные данные при регистрации'
@@ -44,45 +45,71 @@ router.post('/registretion',
         } catch (err) { console.log(err) }
     })
 
-    router.post('/login',
-     [
-         check('login', 'Некорректное login').exists(),
-         check('password', 'Некорректное password').exists()
-     ],
+router.post('/login',
+    [
+        check('login', 'Некорректное login').exists(),
+        check('password', 'Некорректное password').exists()
+    ],
     async (req, res) => {
         try {
             const errors = validationResult(req)
 
-            if(!errors.isEmpty()){
+            if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'Некорректные данные при регистрации'
                 })
             }
 
-            const {login, password } = req.body;
+            const { login, password } = req.body;
 
-            const client  = await Client.findOne({login})
+            const client = await Client.findOne({ login })
+            const employee = await Employee.findOne({ login })
 
-            if(!client){
-                return res.status(400).json({message: "Такого логина нет"})
+            if (!client && !employee) {
+                return res.status(400).json({ message: "Такого логина нет" })
+            } else {
+                if (!employee) {
+                    const isMatch = bcrypt.compare(password, client.password)
+
+                    if (!isMatch) {
+                        return res.status(400).json({ message: 'Пароль не верный' })
+                    }
+
+                    const jwtSecret = 'fdsfds6f78dsfj96dsf54fas8a98778989ada55ccdsd5'
+
+                    const token = jwt.sign(
+                        { clientId: client.id },
+                        jwtSecret,
+                        { expiresIn: '1h' }
+                    )
+
+                    res.json({ token, clientId: client.id, operator: false, driver: false })
+                }
+                else {
+                    const isMatch = (password === employee.password)
+
+                    if (!isMatch) {
+                        return res.status(400).json({ message: 'Пароль не верный' })
+                    }
+
+                    const jwtSecret = 'fdsfds6f78dsfj96dsf54fas8a98778989ada55ccdsd5'
+
+                    const token = jwt.sign(
+                        { clientId: employee.id },
+                        jwtSecret,
+                        { expiresIn: '1h' }
+                    )
+
+                    res.json({ token, clientId: employee.id, operator: !employee.licence_number, driver: !!employee.licence_number })
+                }
+
             }
 
-            const isMatch = bcrypt.compare(password, client.password)
 
-            if(!isMatch){
-                return res.status(400).json({message: 'Пароль не верный'})
-            }
 
-            const jwtSecret = 'fdsfds6f78dsfj96dsf54fas8a98778989ada55ccdsd5'
 
-            const token = jwt.sign(
-                {clientId: client.id},
-                jwtSecret,
-                {expiresIn: '1h'}
-            )
 
-            res.json({token, clientId: client.id})
 
         } catch (err) { console.log(err) }
     })

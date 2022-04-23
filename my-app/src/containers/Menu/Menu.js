@@ -18,13 +18,21 @@ export default function LongMenu() {
     const handleClose = (event) => {
         setAnchorEl(null);
     };
-    const { logout, isLogin } = React.useContext(AuthContext)
+    const { logout, isLogin, isDriver, isOperator } = React.useContext(AuthContext)
 
-    const options = [
-        <Link to='/clientroom'>Личный кабинет</Link>,
-        'Сделать заказ',
-        <Link onClick={logout} to='/login'>Выход</Link>,
-    ];
+    const options = function (){
+        if(isOperator){
+            return[<Link to='/operatorroom'>Личный кабинет</Link>,
+            <Link onClick={logout} to='/login'>Выход</Link>,]
+        }
+        if(isDriver){
+            return [<Link to='/driverroom'>Личный кабинет</Link>,
+            <Link onClick={logout} to='/login'>Выход</Link>,]
+        }
+        return [<Link to='/clientroom'>Личный кабинет</Link>,
+        <Link to='/order'>Сделать заказ</Link>,
+        <Link onClick={logout} to='/login'>Выход</Link>,]
+    }
 
 
     return (
@@ -54,7 +62,7 @@ export default function LongMenu() {
                     },
                 }}
             >
-                {options.map((option) => (
+                {options().map((option) => (
                     <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
                         {option}
                     </MenuItem>

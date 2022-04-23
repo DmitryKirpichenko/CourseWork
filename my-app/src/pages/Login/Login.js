@@ -30,7 +30,8 @@ function Login() {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
-                login(res.data.token, res.data.clientId)
+                login(res.data.token, res.data.clientId, res.data.operator, res.data.driver)
+                console.log(res.data)
             })
         } catch (err) { console.log(err) }
     }
