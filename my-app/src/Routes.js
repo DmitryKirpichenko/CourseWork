@@ -5,6 +5,7 @@ import Registretion from './pages/Registretion/Registretion';
 import ClientArea from './pages/ClientArea/ClientArea';
 import Order from './pages/Order/Order';
 import DriverArea from './pages/DriverArea/DriverArea';
+import OperatorArea from './pages/OperatorArea/OperatorArea'
 
 function useRoutes(isLogin, isOperator, isDriver) {
     if (isLogin) {
@@ -18,6 +19,14 @@ function useRoutes(isLogin, isOperator, isDriver) {
                     <Route path='/driverroom' element={<DriverArea />}></Route>
                 </Routes>
                 )
+        }
+        if(isOperator){
+            return(
+                <Routes>
+                    <Route path='/' element={<Main />}></Route>
+                    <Route path='/operatorroom' element={<OperatorArea />}></Route>
+                </Routes>
+            )
         }
         return (
             <Routes>

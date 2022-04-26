@@ -4,6 +4,7 @@ const Order = require('../models/Order')
 const Client = require('../models/Client')
 const Street = require('../models/Street')
 const Type_auto = require('../models/Type_auto')
+const Auto = require('../models/Auto')
 const mongoose = require('mongoose');
 
 router.get('/', async (req, res) => {
@@ -16,18 +17,18 @@ router.get('/', async (req, res) => {
 
         let order
 
-    
-        if(isDriver === 'true'){
-            order = await Order.find({ 'auto.driver._id':  mongoose.mongo.ObjectId(clientId), 'condition': cond })
+
+        if (isDriver === 'true') {
+            order = await Order.find({ 'auto.driver._id': mongoose.mongo.ObjectId(clientId), 'condition': cond })
             console.log('Просит driver ')
 
         }
-        else{
-            if(isOperator === 'true'){
-                order = await Order.find()
+        else {
+            if (isOperator === 'true') {
+                order = await Order.find({ 'condition': cond })
                 console.log('Просит operator ')
             }
-            else{
+            else {
                 order = await Order.find({ 'client._id': clientId, 'condition': cond })
                 console.log('Просит client ')
             }
@@ -70,7 +71,7 @@ router.post('/add',
                 _id: new mongoose.mongo.ObjectId(),
                 data: date.getFullYear.toString(),
                 condition: 0,
-                price: Math.sqrt((sendStreet1.x - sendStreet2.x)**2 +  (sendStreet1.y - sendStreet2.y)**2) * sendTypeAuto.price,
+                price: Math.sqrt((sendStreet1.x - sendStreet2.x) ** 2 + (sendStreet1.y - sendStreet2.y) ** 2) * sendTypeAuto.price,
                 client: {
                     _id: client._id,
                     name: client.name,
@@ -102,6 +103,88 @@ router.post('/add',
             await order.save();
 
             res.status(201).json({ message: 'Учётная запись созданна' })
+        } catch (err) { console.log(err) }
+    })
+
+router.post('/update/driver',
+
+    async (req, res) => {
+        try {
+
+            const { orderId } = req.body;
+
+            console.log(orderId)
+
+
+            const isOrder = await Order.findOne({ '_id': orderId })
+
+            console.log(isOrder)
+
+
+            if (!isOrder) {
+                console.log('No')
+                return res.status(300).json({ message: 'Такого заказа нет' })
+            }
+
+            isOrder.condition = 2
+
+            console.log('-------------------')
+
+            console.log(isOrder)
+
+            await isOrder.save()
+
+            res.status(201).json({ message: 'ЗАпись обновлена' })
+        } catch (err) { console.log(err) }
+    })
+
+router.post('/update/operator',
+
+    async (req, res) => {
+        try {
+
+            const { orderId, number } = req.body;
+
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
+            console.log(orderId, number)
+
+
+            const isOrder = await Order.findOne({ '_id': orderId })
+            const selectAuto = await Auto.findOne({'number': number})
+
+            console.log(isOrder)
+
+
+            if (!isOrder) {
+                console.log('No')
+                return res.status(300).json({ message: 'Такого заказа нет' })
+            }
+
+            isOrder.condition = 1
+
+            isOrder.auto = {
+                _id: selectAuto._id,
+                number: selectAuto.number,
+                brand: selectAuto.brand,
+                color: selectAuto.color,
+                year: selectAuto.year,
+                condition: selectAuto.condition,
+                driver: {
+                    _id : selectAuto.driver._id,
+                    name: selectAuto.driver.name,
+                    surname : selectAuto.driver.surname,
+                    lastname : selectAuto.driver.lastname
+                }
+            }
+
+            console.log('-------------------')
+
+            console.log(isOrder)
+
+            await isOrder.save()
+
+            res.status(201).json({ message: 'ЗАпись обновлена' })
         } catch (err) { console.log(err) }
     })
 

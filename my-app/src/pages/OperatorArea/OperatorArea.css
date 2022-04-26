@@ -1,0 +1,19 @@
+.main-clientarea{
+
+    padding-left: 5%;
+    padding-right: 5%;
+    display: grid;
+
+    grid-template-areas: 
+    'menu talbe';
+    grid-template-rows: 1fr;
+    grid-template-columns: 1.5fr 3fr;
+}
+
+.menu-clientarea{
+    grid-area: 'menu';
+}
+
+.table-clientarea{
+    grid-area: 'table';
+}
