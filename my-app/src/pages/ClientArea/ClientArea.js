@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import { Button } from '@mui/material'
 import { ButtonGroup } from '@mui/material'
+import TextField from '@mui/material/TextField';
 
 import React, { useCallback, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -135,6 +136,22 @@ function ClientArea() {
 
   const [ data, setData ] = useState([])
 
+  const [com, setCom] = useState('')
+
+  const changeHandler = (event) => {
+        setCom(event.target.value);
+    }
+
+  const UpdateHandler = async () => {
+    try {
+        await axios.post('/client/update', { clientId, com }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => console.log(res))
+    } catch (err) { console.log(err) }
+}
+
   const getOrder = useEffect(() => {
         axios.get('/order', {
         headers: {
@@ -165,9 +182,16 @@ function ClientArea() {
             aria-label="vertical outlined button group"
           >
             <Button variant="outlined" onClick={(e) => setCond(3)}>Прошлые заказы</Button>
-            <Button variant="outlined" onClick={(e) => setCond(1)}>В обработке</Button>
+            <Button variant="outlined" onClick={(e) => setCond(0)}>В обработке</Button>
             <Button variant="outlined" onClick={(e) => setCond(2)}>Ожидают оплаты</Button>
+
+            <TextField onChange={changeHandler} multiline minRows={3} maxRows={3}  id="standard-basic"  label="Комментарий" variant="standard" />
+            <Button variant="outlined" onClick={(e) => UpdateHandler()}>Отправить</Button>
+            
           </ButtonGroup>
+
+          
+                
 
         </div>
         <div className='table-clientarea'>

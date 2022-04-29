@@ -12,11 +12,14 @@ import React, {useState, useEffect} from 'react';
 
 import axios from 'axios';
 
-function createData(name, x, y) {
+import AddStreet from './AddStreet/AddStreet'
+
+function createData(name, x, y, id) {
     return {
       name,
       x,
       y,
+      id,
     };
 }
 
@@ -36,14 +39,14 @@ function StreetTable() {
 
       let rowss = data.map((item) => createData(item.name,
         item.x,
-        item.y))
+        item.y,
+        item._id))
 
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead>
                     <TableRow>
-                        <TableCell />
                         <TableCell>Название</TableCell>
                         <TableCell align="right">x</TableCell>
                         <TableCell align="right">y</TableCell>
@@ -55,6 +58,7 @@ function StreetTable() {
                     ))}
                 </TableBody>
             </Table>
+            <AddStreet></AddStreet>
         </TableContainer>
     )
 }

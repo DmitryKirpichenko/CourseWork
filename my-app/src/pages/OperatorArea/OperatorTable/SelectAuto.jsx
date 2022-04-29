@@ -14,8 +14,8 @@ function SelectAuto({con, id, type}) {
 
     console.log(con, id, type)
 
-    function operatorUpdate(e, id, auto) {
-        axios.post('/order/update/operator', { orderId: id, number: auto }, {
+    function operatorUpdate(e, id, auto, con) {
+        axios.post('/order/update/operator', { orderId: id, number: auto, con}, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -59,7 +59,8 @@ function SelectAuto({con, id, type}) {
                             <MenuItem key={ind} value={item.number}>{item.number}</MenuItem>)}
                     </Select>
                 </FormControl>
-                <Button variant="outlined" onClick={(e) => operatorUpdate(e, id, auto)} >Назначить </Button>
+                <Button variant="outlined" onClick={(e) => operatorUpdate(e, id, auto, 1)} >Назначить </Button>
+                <Button variant="outlined" onClick={(e) => operatorUpdate(e, id, auto, -1)} >Отказать </Button>
             </div>
         )
 

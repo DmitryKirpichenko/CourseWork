@@ -13,6 +13,8 @@ import MyTable from './OperatorTable/MyTable'
 
 import StreetTable from './StreetTable/StreetTable'
 
+import TableIndex from './indexTable'
+
 
 
 function createData(name, calories, fat, carbs, protein, cost, driverName, auto, id, type_auto) {
@@ -89,6 +91,11 @@ function OperatorArea() {
     item.client.phone,
     item._id,
     item.type_auto.name))
+
+    function stateClickHandel(st){
+      setCond(st)
+      setTable(1)
+    }
   return (
     <div>
       <Header />
@@ -98,17 +105,18 @@ function OperatorArea() {
             orientation="vertical"
             aria-label="vertical outlined button group"
           >
-            <Button variant="outlined" onClick={(e) => setCond(3)}>Прошлые заказы</Button>
-            <Button variant="outlined" onClick={(e) => setCond(0)}>Ожидают</Button>
-            <Button variant="outlined" onClick={(e) => setCond(1)}>Выполняются</Button>
-            <Button variant="outlined" onClick={(e) => setCond(2)}>Ожидают оплату</Button>
+            <Button variant="outlined" onClick={(e) => stateClickHandel(3)}>Прошлые заказы</Button>
+            <Button variant="outlined" onClick={(e) => stateClickHandel(0)}>Ожидают</Button>
+            <Button variant="outlined" onClick={(e) => stateClickHandel(1)}>Выполняются</Button>
+            <Button variant="outlined" onClick={(e) => stateClickHandel(2)}>Ожидают оплату</Button>
             <Button variant="outlined" onClick={(e) => setTable(2)}>Улицы</Button>
 
           </ButtonGroup>
 
         </div>
         <div className='table-clientarea'>
-        <MyTable rowss={rowss}></MyTable>
+          <TableIndex state={table} rowss={rowss}></TableIndex>
+        {/* <MyTable rowss={rowss}></MyTable> */}
         </div>
       </div>
       <Footer />

@@ -1,12 +1,13 @@
 const { Router } = require('express')
 const router = Router()
 const Street = require('../models/Street')
+const mongoose = require('mongoose')
 
 router.get('/', async (req, res) => {
     try {
         const streets = await Street.find()
 
-        res.json(streets)
+        res.status(200).json(streets)
     } catch (error) {
         console.log(error)
     }
@@ -25,9 +26,9 @@ router.post('/add',
                 y,
             })
 
-            await order.save();
+            await street.save();
 
-            res.status(201).json({ message: 'Учётная запись созданна' })
+            res.status(200).json({ message: 'Учётная запись созданна' })
         } catch (err) { console.log(err) }
     })
 
@@ -37,6 +38,8 @@ router.post('/update',
         try {
 
             const { streetId, name, x, y } = req.body;
+
+            console.log('update',streetId, name, x, y)
 
             const street = await Street.findOne({ '_id': streetId })
 
@@ -51,7 +54,7 @@ router.post('/update',
 
             await street.save()
 
-            res.status(201).json({ message: 'ЗАпись обновлена' })
+            res.status(200).json({ message: 'ЗАпись обновлена' })
         } catch (err) { console.log(err) }
     })
 
@@ -62,10 +65,12 @@ router.post('/delete',
 
             const { streetId} = req.body;
 
+            console.log(streetId)
+
             const street = await Street.deleteOne({'_id': streetId})
 
 
-            res.status(201).json({ message: 'ЗАпись удалена' })
+            res.status(200).json({ message: 'ЗАпись удалена' })
         } catch (err) { console.log(err) }
     })
 

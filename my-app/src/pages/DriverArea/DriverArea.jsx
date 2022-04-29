@@ -41,9 +41,9 @@ function createData(name, calories, fat, carbs, protein, cost, driverName, auto,
   };
 }
 
-function driverUpdate(e,id) {
+function driverUpdate(e,id, cond) {
   console.log(id)
-  axios.post('/order/update/driver',{ orderId: id }, {
+  axios.post('/order/update/driver',{ orderId: id, con: cond }, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -56,7 +56,10 @@ function driverUpdate(e,id) {
 function buttonVis(con, id) {
   console.log('ddddddddddddd', id)
   if (con == 1) {
-    return <Button variant="outlined" onClick={(e) => driverUpdate(e,id)} >Выполнить </Button>
+    return <div>
+      <Button variant="outlined" onClick={(e) => driverUpdate(e,id,2)} >Выполнить </Button>
+      <Button variant="outlined" onClick={(e) => driverUpdate(e,id, 0)} >Отказать </Button>
+    </div> 
   }
 }
 

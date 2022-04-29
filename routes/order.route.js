@@ -111,7 +111,7 @@ router.post('/update/driver',
     async (req, res) => {
         try {
 
-            const { orderId } = req.body;
+            const { orderId, con } = req.body;
 
             console.log(orderId)
 
@@ -126,7 +126,7 @@ router.post('/update/driver',
                 return res.status(300).json({ message: 'Такого заказа нет' })
             }
 
-            isOrder.condition = 2
+            isOrder.condition = con
 
             console.log('-------------------')
 
@@ -143,46 +143,66 @@ router.post('/update/operator',
     async (req, res) => {
         try {
 
-            const { orderId, number } = req.body;
+            const { orderId, number, con } = req.body;
 
             console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
             console.log(orderId, number)
 
+            if (con = 1) {
+                const isOrder = await Order.findOne({ '_id': orderId })
+                const selectAuto = await Auto.findOne({ 'number': number })
 
-            const isOrder = await Order.findOne({ '_id': orderId })
-            const selectAuto = await Auto.findOne({'number': number})
-
-            console.log(isOrder)
+                console.log(isOrder)
 
 
-            if (!isOrder) {
-                console.log('No')
-                return res.status(300).json({ message: 'Такого заказа нет' })
-            }
-
-            isOrder.condition = 1
-
-            isOrder.auto = {
-                _id: selectAuto._id,
-                number: selectAuto.number,
-                brand: selectAuto.brand,
-                color: selectAuto.color,
-                year: selectAuto.year,
-                condition: selectAuto.condition,
-                driver: {
-                    _id : selectAuto.driver._id,
-                    name: selectAuto.driver.name,
-                    surname : selectAuto.driver.surname,
-                    lastname : selectAuto.driver.lastname
+                if (!isOrder) {
+                    console.log('No')
+                    return res.status(300).json({ message: 'Такого заказа нет' })
                 }
+
+                isOrder.condition = 1
+
+                isOrder.auto = {
+                    _id: selectAuto._id,
+                    number: selectAuto.number,
+                    brand: selectAuto.brand,
+                    color: selectAuto.color,
+                    year: selectAuto.year,
+                    condition: selectAuto.condition,
+                    driver: {
+                        _id: selectAuto.driver._id,
+                        name: selectAuto.driver.name,
+                        surname: selectAuto.driver.surname,
+                        lastname: selectAuto.driver.lastname
+                    }
+                }
+
+                console.log('-------------------')
+
+                console.log(isOrder)
+
+                await isOrder.save()
             }
 
-            console.log('-------------------')
+            else{
+                const isOrder = await Order.findOne({ '_id': orderId })
 
-            console.log(isOrder)
+                console.log(isOrder)
 
-            await isOrder.save()
+
+                if (!isOrder) {
+                    console.log('No')
+                    return res.status(300).json({ message: 'Такого заказа нет' })
+                }
+
+                isOrder.condition = -1
+
+                await isOrder.save()
+            }
+
+
+
 
             res.status(201).json({ message: 'ЗАпись обновлена' })
         } catch (err) { console.log(err) }
